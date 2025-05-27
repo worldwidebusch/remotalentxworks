@@ -69,6 +69,89 @@
             background: linear-gradient(to right, transparent, #d4af37, transparent);
         }
         
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            color: #d4af37;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .page-content {
+            padding-top: 120px;
+            padding-bottom: 60px;
+        }
+        
+        .faq-item {
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-answer {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-answer.active {
+            padding: 1rem;
+            max-height: 500px;
+        }
+        
+        .contact-card {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.6);
+        }
+        
+        .team-member {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .team-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            overflow: hidden;
+            border: 3px solid #d4af37;
+        }
+        
+        .team-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.25rem;
@@ -77,6 +160,42 @@
             .hero-text {
                 padding: 0 1rem;
             }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .page-content {
+                padding-top: 100px;
+            }
+        }
+        
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 70%;
+            height: 100vh;
+            background-color: #000;
+            z-index: 100;
+            padding-top: 70px;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        .mobile-menu ul {
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+        }
+        
+        .mobile-menu li {
+            margin: 1rem 0;
         }
     </style>
 </head>
@@ -85,71 +204,434 @@
     <header class="py-4 px-6 md:px-12 lg:px-24 fixed w-full z-50 bg-black bg-opacity-90 backdrop-filter backdrop-blur-md border-b border-gray-800">
         <div class="flex justify-between items-center">
             <div class="flex items-center">
-                <h1 class="text-2xl font-bold"><span class="gold-text">Remo</span><span class="gold-text">Talent</span><span class="blue-text">X</span></h1>
+                <a href="#" data-page="home" class="nav-link">
+                    <h1 class="text-2xl font-bold"><span class="gold-text">Remo</span><span class="gold-text">Talent</span><span class="blue-text">X</span></h1>
+                </a>
+            </div>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-8">
+                    <li><a href="#" data-page="home" class="nav-link text-white hover:text-yellow-400 transition font-medium">Inicio</a></li>
+                    <li><a href="#" data-page="contact" class="nav-link text-white hover:text-yellow-400 transition font-medium">Contacto</a></li>
+                    <li><a href="#" data-page="about" class="nav-link text-white hover:text-yellow-400 transition font-medium">Sobre Nosotros</a></li>
+                    <li><a href="#" data-page="faq" class="nav-link text-white hover:text-yellow-400 transition font-medium">FAQ</a></li>
+                </ul>
+            </nav>
+            <div class="block md:hidden">
+                <button id="menu-toggle" class="text-white hover:text-yellow-400 transition">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
             </div>
         </div>
     </header>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <ul>
+            <li><a href="#" data-page="home" class="mobile-nav-link text-white hover:text-yellow-400 transition font-medium">Inicio</a></li>
+            <li><a href="#" data-page="contact" class="mobile-nav-link text-white hover:text-yellow-400 transition font-medium">Contacto</a></li>
+            <li><a href="#" data-page="about" class="mobile-nav-link text-white hover:text-yellow-400 transition font-medium">Sobre Nosotros</a></li>
+            <li><a href="#" data-page="faq" class="mobile-nav-link text-white hover:text-yellow-400 transition font-medium">FAQ</a></li>
+        </ul>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center">
-        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80')"></div>
-        <div class="absolute inset-0 hero-overlay"></div>
-        
-        <div class="container mx-auto px-6 md:px-12 relative z-10 pt-24 pb-12">
-            <div class="flex flex-col items-center justify-center text-center hero-text">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-                    Convierte Tu <span class="gold-gradient">Inglés</span> En Un Salario <span class="gold-gradient">Internacional</span>
-                </h1>
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex items-center">
+            <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80')"></div>
+            <div class="absolute inset-0 hero-overlay"></div>
+            
+            <div class="container mx-auto px-6 md:px-12 relative z-10 pt-24 pb-12">
+                <div class="flex flex-col items-center justify-center text-center hero-text">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
+                        Convierte Tu <span class="gold-gradient">Inglés</span> En Un Salario <span class="gold-gradient">Internacional</span>
+                    </h1>
+                    
+                    <div class="w-24 gold-line mx-auto mb-10"></div>
+                    
+                    <p class="text-xl md:text-2xl mb-8 max-w-3xl">
+                        Oportunidades exclusivas para nicaragüenses que dominan el inglés. Trabaja remotamente, desde tu casa, ganando en dólares.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl w-full mb-12">
+                        <div class="feature-card bg-black bg-opacity-70 backdrop-filter backdrop-blur-sm p-6 rounded-lg">
+                            <div class="w-16 h-16 rounded-full bg-black flex items-center justify-center mx-auto mb-4 border border-yellow-400">
+                                <i class="fas fa-dollar-sign text-3xl gold-text"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 gold-text">Ganancias Superiores</h3>
+                            <p>Desde $5/hora hasta comisiones ilimitadas en ventas, pagadas en dólares americanos.</p>
+                        </div>
+                        
+                        <div class="feature-card bg-black bg-opacity-70 backdrop-filter backdrop-blur-sm p-6 rounded-lg">
+                            <div class="w-16 h-16 rounded-full bg-black flex items-center justify-center mx-auto mb-4 border border-yellow-400">
+                                <i class="fas fa-home text-3xl gold-text"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 gold-text">100% Remoto</h3>
+                            <p>Trabaja desde la comodidad de tu hogar, sin desplazamientos y con horarios flexibles.</p>
+                        </div>
+                        
+                        <div class="feature-card bg-black bg-opacity-70 backdrop-filter backdrop-blur-sm p-6 rounded-lg">
+                            <div class="w-16 h-16 rounded-full bg-black flex items-center justify-center mx-auto mb-4 border border-yellow-400">
+                                <i class="fas fa-chart-line text-3xl gold-text"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 gold-text">Crecimiento Real</h3>
+                            <p>Desarrolla habilidades internacionales y avanza en tu carrera con empresas globales.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="w-24 gold-line mx-auto mb-12"></div>
+                    
+                    <div class="flex flex-col items-center justify-center">
+                        <p class="text-xl mb-8 max-w-2xl text-center">
+                            Más de <span class="gold-text font-bold">500 nicaragüenses</span> ya han transformado sus ingresos mensuales utilizando su inglés como herramienta profesional.
+                        </p>
+                        
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfvzTPf9OiASDN1RBfnrb6m4-WYOov6B3ROb60iMes0Pcrj_g/viewform" class="btn-gold text-lg px-10 py-4 rounded-full font-bold tracking-wide transform transition hover:scale-105 flex items-center">
+                            <span>APLICA AHORA</span>
+                            <i class="fas fa-arrow-right ml-3"></i>
+                        </a>
+                        
+                        <p class="text-gray-400 mt-4">Proceso de selección simple y rápido</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <div class="page-content">
+            <div class="container mx-auto px-6 md:px-12">
+                <h1 class="page-title">Contáctanos</h1>
                 
                 <div class="w-24 gold-line mx-auto mb-10"></div>
                 
-                <p class="text-xl md:text-2xl mb-8 max-w-3xl">
-                    Oportunidades exclusivas para nicaragüenses que dominan el inglés. Trabaja remotamente, desde tu casa, ganando en dólares.
+                <p class="text-center text-xl mb-12 max-w-3xl mx-auto">
+                    Estamos aquí para responder tus preguntas y ayudarte a iniciar tu carrera internacional. Utiliza cualquiera de los siguientes métodos para comunicarte con nosotros.
                 </p>
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl w-full mb-12">
-                    <div class="feature-card bg-black bg-opacity-70 backdrop-filter backdrop-blur-sm p-6 rounded-lg">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                    <div class="contact-card">
                         <div class="w-16 h-16 rounded-full bg-black flex items-center justify-center mx-auto mb-4 border border-yellow-400">
-                            <i class="fas fa-dollar-sign text-3xl gold-text"></i>
+                            <i class="fas fa-phone text-2xl gold-text"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-2 gold-text">Ganancias Superiores</h3>
-                        <p>Desde $5/hora hasta comisiones ilimitadas en ventas, pagadas en dólares americanos.</p>
+                        <h3 class="text-xl font-bold mb-2 gold-text text-center">Llámanos</h3>
+                        <p class="text-center mb-4">Estamos disponibles de lunes a viernes de 8am a 6pm</p>
+                        <p class="text-center"><a href="tel:+50582164104" class="text-white hover:text-yellow-400 transition"><i class="fab fa-whatsapp mr-2"></i>+50582164104 (WhatsApp)</a></p>
                     </div>
                     
-                    <div class="feature-card bg-black bg-opacity-70 backdrop-filter backdrop-blur-sm p-6 rounded-lg">
+                    <div class="contact-card">
                         <div class="w-16 h-16 rounded-full bg-black flex items-center justify-center mx-auto mb-4 border border-yellow-400">
-                            <i class="fas fa-home text-3xl gold-text"></i>
+                            <i class="fas fa-envelope text-2xl gold-text"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-2 gold-text">100% Remoto</h3>
-                        <p>Trabaja desde la comodidad de tu hogar, sin desplazamientos y con horarios flexibles.</p>
+                        <h3 class="text-xl font-bold mb-2 gold-text text-center">Escríbenos</h3>
+                        <p class="text-center mb-4">Responderemos a tu correo en menos de 24 horas</p>
+                        <p class="text-center"><a href="mailto:info@remotalentx.com" class="text-white hover:text-yellow-400 transition">info@remotalentx.com</a></p>
                     </div>
                     
-                    <div class="feature-card bg-black bg-opacity-70 backdrop-filter backdrop-blur-sm p-6 rounded-lg">
+                    <div class="contact-card md:col-span-2 lg:col-span-1">
                         <div class="w-16 h-16 rounded-full bg-black flex items-center justify-center mx-auto mb-4 border border-yellow-400">
-                            <i class="fas fa-chart-line text-3xl gold-text"></i>
+                            <i class="fas fa-map-marker-alt text-2xl gold-text"></i>
                         </div>
-                        <h3 class="text-xl font-bold mb-2 gold-text">Crecimiento Real</h3>
-                        <p>Desarrolla habilidades internacionales y avanza en tu carrera con empresas globales.</p>
+                        <h3 class="text-xl font-bold mb-2 gold-text text-center">Visítanos</h3>
+                        <p class="text-center mb-4">Tenemos oficinas de reclutamiento en Managua</p>
+                        <p class="text-center">Centro Comercial Managua, Módulo B-12, Managua, Nicaragua</p>
                     </div>
                 </div>
                 
-                <div class="w-24 gold-line mx-auto mb-12"></div>
-                
-                <div class="flex flex-col items-center justify-center">
-                    <p class="text-xl mb-8 max-w-2xl text-center">
-                        Más de <span class="gold-text font-bold">500 nicaragüenses</span> ya han transformado sus ingresos mensuales utilizando su inglés como herramienta profesional.
-                    </p>
+                <div class="bg-black bg-opacity-70 backdrop-filter backdrop-blur-sm p-8 rounded-lg max-w-3xl mx-auto">
+                    <h3 class="text-2xl font-bold mb-6 gold-text text-center">Envíanos un mensaje</h3>
                     
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfvzTPf9OiASDN1RBfnrb6m4-WYOov6B3ROb60iMes0Pcrj_g/viewform" class="btn-gold text-lg px-10 py-4 rounded-full font-bold tracking-wide transform transition hover:scale-105 flex items-center">
-                        <span>APLICA AHORA</span>
-                        <i class="fas fa-arrow-right ml-3"></i>
-                    </a>
-                    
-                    <p class="text-gray-400 mt-4">Proceso de selección simple y rápido</p>
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium mb-2">Nombre Completo*</label>
+                                <input type="text" id="name" name="name" class="w-full bg-gray-900 border border-gray-700 rounded-md py-3 px-4 focus:outline-none focus:border-yellow-400 text-white" required>
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-medium mb-2">Correo Electrónico*</label>
+                                <input type="email" id="email" name="email" class="w-full bg-gray-900 border border-gray-700 rounded-md py-3 px-4 focus:outline-none focus:border-yellow-400 text-white" required>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="phone" class="block text-sm font-medium mb-2">Número de Teléfono</label>
+                            <input type="tel" id="phone" name="phone" class="w-full bg-gray-900 border border-gray-700 rounded-md py-3 px-4 focus:outline-none focus:border-yellow-400 text-white">
+                        </div>
+                        
+                        <div>
+                            <label for="subject" class="block text-sm font-medium mb-2">Asunto*</label>
+                            <input type="text" id="subject" name="subject" class="w-full bg-gray-900 border border-gray-700 rounded-md py-3 px-4 focus:outline-none focus:border-yellow-400 text-white" required>
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-sm font-medium mb-2">Mensaje*</label>
+                            <textarea id="message" name="message" rows="5" class="w-full bg-gray-900 border border-gray-700 rounded-md py-3 px-4 focus:outline-none focus:border-yellow-400 text-white" required></textarea>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn-gold px-8 py-3 rounded-full font-bold tracking-wide">
+                                Enviar Mensaje
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+
+    <!-- About Us Page -->
+    <div id="about" class="page">
+        <div class="page-content">
+            <div class="container mx-auto px-6 md:px-12">
+                <h1 class="page-title">Sobre Nosotros</h1>
+                
+                <div class="w-24 gold-line mx-auto mb-10"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
+                    <div>
+                        <h2 class="text-2xl font-bold mb-4 gold-text">Nuestra Misión</h2>
+                        <p class="mb-6">En RemoTalentX, nos dedicamos a conectar el talento nicaragüense con oportunidades laborales internacionales que valoran justamente las habilidades bilingües. Creemos que el dominio del inglés es una puerta hacia mejores ingresos y desarrollo profesional.</p>
+                        
+                        <h2 class="text-2xl font-bold mb-4 gold-text">Nuestra Visión</h2>
+                        <p class="mb-6">Aspiramos a transformar el panorama laboral para los nicaragüenses bilingües, creando un puente entre el talento local y las empresas globales que buscan profesionales capacitados, mientras contribuimos al crecimiento económico y desarrollo personal de nuestros colaboradores.</p>
+                        
+                        <h2 class="text-2xl font-bold mb-4 gold-text">Nuestros Valores</h2>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><strong class="gold-text">Excelencia</strong> - Comprometidos con los más altos estándares</li>
+                            <li><strong class="gold-text">Integridad</strong> - Transparencia en todo lo que hacemos</li>
+                            <li><strong class="gold-text">Innovación</strong> - Buscando constantemente nuevas oportunidades</li>
+                            <li><strong class="gold-text">Desarrollo</strong> - Impulsando el crecimiento personal y profesional</li>
+                            <li><strong class="gold-text">Comunidad</strong> - Construyendo una red de profesionales bilingües</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-black bg-opacity-70 backdrop-filter backdrop-blur-sm p-6 rounded-lg">
+                        <h3 class="text-xl font-bold mb-6 gold-text text-center">Nuestra Historia</h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="font-bold mb-2"><span class="gold-text">2020</span> - Los Inicios</h4>
+                                <p>Fundamos RemoTalentX en medio de la pandemia, identificando la oportunidad de conectar a profesionales nicaragüenses con empresas internacionales que comenzaban a adoptar el trabajo remoto masivamente.</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold mb-2"><span class="gold-text">2021</span> - Primeras Contrataciones</h4>
+                                <p>Logramos colocar a nuestros primeros 50 talentos en empresas de Estados Unidos y Europa, principalmente en posiciones de servicio al cliente y ventas.</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold mb-2"><span class="gold-text">2022</span> - Expansión</h4>
+                                <p>Abrimos nuestra oficina física en Managua y ampliamos nuestro programa de capacitación para preparar mejor a los candidatos.</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold mb-2"><span class="gold-text">2023</span> - Consolidación</h4>
+                                <p>Superamos los 300 profesionales colocados y ampliamos nuestra red de empresas colaboradoras en múltiples industrias.</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold mb-2"><span class="gold-text">2024</span> - Reconocimiento Internacional</h4>
+                                <p>Recibimos reconocimiento como una de las mejores empresas de reclutamiento remoto en Centroamérica.</p>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-bold mb-2"><span class="gold-text">2025</span> - El Futuro</h4>
+                                <p>Continuamos creciendo y expandiendo nuestras operaciones, con la meta de transformar las vidas de más de 1,000 profesionales nicaragüenses.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold mb-8 gold-text text-center">Nuestro Equipo</h2>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                    <div class="team-member">
+                        <div class="team-photo">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80" alt="Carlos Mendoza">
+                        </div>
+                        <h3 class="font-bold mb-1">Carlos Mendoza</h3>
+                        <p class="gold-text mb-2">Fundador y CEO</p>
+                        <p class="text-sm text-gray-300">Con más de 15 años de experiencia en reclutamiento internacional.</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="team-photo">
+                            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80" alt="María Gutiérrez">
+                        </div>
+                        <h3 class="font-bold mb-1">María Gutiérrez</h3>
+                        <p class="gold-text mb-2">Directora de Operaciones</p>
+                        <p class="text-sm text-gray-300">Especialista en optimización de procesos y experiencia del candidato.</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="team-photo">
+                            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80" alt="Roberto Castillo">
+                        </div>
+                        <h3 class="font-bold mb-1">Roberto Castillo</h3>
+                        <p class="gold-text mb-2">Director de Capacitación</p>
+                        <p class="text-sm text-gray-300">Experto en desarrollo profesional y metodologías de aprendizaje.</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="team-photo">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80" alt="Ana López">
+                        </div>
+                        <h3 class="font-bold mb-1">Ana López</h3>
+                        <p class="gold-text mb-2">Relaciones Corporativas</p>
+                        <p class="text-sm text-gray-300">Encargada de establecer nuevas alianzas con empresas internacionales.</p>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <a href="#" data-page="contact" class="nav-link btn-gold px-8 py-3 rounded-full font-bold tracking-wide inline-block">
+                        Contáctanos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Page -->
+    <div id="faq" class="page">
+        <div class="page-content">
+            <div class="container mx-auto px-6 md:px-12">
+                <h1 class="page-title">Preguntas Frecuentes</h1>
+                
+                <div class="w-24 gold-line mx-auto mb-10"></div>
+                
+                <p class="text-center text-xl mb-12 max-w-3xl mx-auto">
+                    Encuentra respuestas a las preguntas más comunes sobre nuestras oportunidades laborales, proceso de aplicación y requisitos.
+                </p>
+                
+                <div class="max-w-4xl mx-auto mb-16">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3 class="font-bold">¿Qué nivel de inglés necesito?</h3>
+                            <i class="fas fa-chevron-down gold-text"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Requerimos un nivel intermedio-avanzado (B2) o superior. No es necesario tener un acento nativo perfecto, pero debes poder mantener conversaciones fluidas, entender instrucciones claras y comunicarte efectivamente con clientes internacionales. Evaluamos tu nivel durante el proceso de selección.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3 class="font-bold">¿Cómo funciona el pago por comisiones?</h3>
+                            <i class="fas fa-chevron-down gold-text"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Para posiciones de ventas, ofrecemos un modelo de comisiones que varía según la empresa y el producto/servicio. Típicamente, nuestros vendedores ganan entre $1,000 y $3,000 USD mensuales, dependiendo de su desempeño. Las comisiones se pagan quincenalmente y van desde el 5% hasta el 25% del valor de venta, dependiendo del tipo de producto.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3 class="font-bold">¿Cuáles son los requisitos técnicos para trabajar remotamente?</h3>
+                            <i class="fas fa-chevron-down gold-text"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Necesitarás:</p>
+                            <ul class="list-disc pl-6 mt-2">
+                                <li>Una computadora (preferiblemente menos de 5 años de antigüedad)</li>
+                                <li>Conexión a internet estable (mínimo 10 Mbps)</li>
+                                <li>Auriculares con micrófono de buena calidad</li>
+                                <li>Un espacio tranquilo y privado para trabajar</li>
+                                <li>Webcam funcional para videollamadas</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3 class="font-bold">¿Cómo es el proceso de selección?</h3>
+                            <i class="fas fa-chevron-down gold-text"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Nuestro proceso consta de los siguientes pasos:</p>
+                            <ol class="list-decimal pl-6 mt-2">
+                                <li>Aplicación en línea (formulario inicial)</li>
+                                <li>Evaluación de nivel de inglés (escrito y oral)</li>
+                                <li>Entrevista inicial con nuestro equipo de reclutamiento</li>
+                                <li>Prueba técnica según la posición</li>
+                                <li>Entrevista final con el cliente potencial</li>
+                                <li>Oferta y onboarding</li>
+                            </ol>
+                            <p class="mt-2">El proceso completo suele durar entre 1 y 3 semanas, dependiendo de la disponibilidad del candidato y las necesidades del cliente.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3 class="font-bold">¿Qué tipo de empresas contratan a través de RemoTalentX?</h3>
+                            <i class="fas fa-chevron-down gold-text"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Trabajamos con una variedad de empresas, desde startups hasta compañías Fortune 500, principalmente de Estados Unidos, Canadá y Europa. Los sectores más comunes incluyen tecnología, e-commerce, finanzas, salud, educación y servicios empresariales. Todas buscan talento bilingüe para atender a sus clientes internacionales o expandirse a mercados hispanohablantes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3 class="font-bold">¿Cuáles son los horarios de trabajo?</h3>
+                            <i class="fas fa-chevron-down gold-text"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Los horarios varían según la posición y la empresa contratante:</p>
+                            <ul class="list-disc pl-6 mt-2">
+                                <li>Para servicio al cliente ($5/hora): Generalmente turnos de 4-8 horas, algunos requieren disponibilidad en horarios específicos basados en la zona horaria del cliente.</li>
+                                <li>Para ventas por comisión: Mayor flexibilidad, aunque algunas empresas pueden requerir disponibilidad durante el horario comercial de su país.</li>
+                            </ul>
+                            <p class="mt-2">Durante el proceso de aplicación, discutimos tus preferencias de horario y tratamos de encontrar oportunidades que se ajusten a tu disponibilidad.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3 class="font-bold">¿Cómo recibo mis pagos?</h3>
+                            <i class="fas fa-chevron-down gold-text"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Ofrecemos varias opciones de pago:</p>
+                            <ul class="list-disc pl-6 mt-2">
+                                <li>Transferencia bancaria directa (a cuentas en USD o córdobas)</li>
+                                <li>PayPal</li>
+                                <li>Wise (anteriormente TransferWise)</li>
+                                <li>Cryptocurrency (Bitcoin u otras, según solicitud)</li>
+                            </ul>
+                            <p class="mt-2">Los pagos se realizan puntualmente cada 15 días, y te proporcionamos un portal donde puedes ver tus ganancias en tiempo real.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3 class="font-bold">¿Ofrecen capacitación?</h3>
+                            <i class="fas fa-chevron-down gold-text"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>¡Absolutamente! Todos nuestros colaboradores reciben:</p>
+                            <ul class="list-disc pl-6 mt-2">
+                                <li>Capacitación inicial gratuita sobre comunicación efectiva en inglés</li>
+                                <li>Entrenamiento específico según la posición y empresa</li>
+                                <li>Mentorías con colaboradores experimentados</li>
+                                <li>Acceso a recursos de desarrollo profesional continuo</li>
+                                <li>Talleres mensuales para mejorar habilidades específicas</li>
+                            </ul>
+                            <p class="mt-2">Nuestro objetivo es asegurar que tengas todas las herramientas necesarias para tener éxito en tu nueva posición.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mb-16">
+                    <h3 class="text-2xl font-bold mb-6">¿No encuentras la respuesta que buscabas?</h3>
+                    <a href="#" data-page="contact" class="nav-link btn-gold px-8 py-3 rounded-full font-bold tracking-wide inline-block">
+                        Contáctanos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-black py-8 border-t border-gray-800">
@@ -180,5 +662,91 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Page Navigation
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        
+        // Show active page
+        function showPage(pageId) {
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            
+            // Scroll to top when changing pages
+            window.scrollTo(0, 0);
+            
+            // Close mobile menu if open
+            mobileMenu.classList.remove('active');
+        }
+        
+        // Add click event to nav links
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('data-page');
+                showPage(pageId);
+            });
+        });
+        
+        // Add click event to mobile nav links
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('data-page');
+                showPage(pageId);
+            });
+        });
+        
+        // Toggle mobile menu
+        menuToggle.addEventListener('click', function() {
+            mobileMenu.classList.toggle('active');
+        });
+        
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', function() {
+                const answer = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                // Check if already active
+                const isActive = answer.classList.contains('active');
+                
+                // Close all answers
+                document.querySelectorAll('.faq-answer').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                document.querySelectorAll('.faq-question i').forEach(item => {
+                    item.classList.remove('fa-chevron-up');
+                    item.classList.add('fa-chevron-down');
+                });
+                
+                // Open clicked answer if it wasn't active
+                if (!isActive) {
+                    answer.classList.add('active');
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                }
+            });
+        });
+        
+        // Form submission (prevent default)
+        const contactForm = document.querySelector('form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.');
+                this.reset();
+            });
+        }
+    </script>
 </body>
 </html>
