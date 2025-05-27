@@ -171,7 +171,6 @@
         }
         
         .mobile-menu {
-            display: none;
             position: fixed;
             top: 0;
             right: 0;
@@ -196,6 +195,25 @@
         
         .mobile-menu li {
             margin: 1rem 0;
+        }
+        
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+        }
+        
+        .menu-overlay.active {
+            display: block;
+        }
+        
+        body.no-scroll {
+            overflow: hidden;
         }
     </style>
 </head>
@@ -223,6 +241,9 @@
             </div>
         </div>
     </header>
+    
+    <!-- Menu Overlay -->
+    <div class="menu-overlay"></div>
     
     <!-- Mobile Menu -->
     <div class="mobile-menu">
@@ -670,6 +691,7 @@
         const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
         const menuToggle = document.getElementById('menu-toggle');
         const mobileMenu = document.querySelector('.mobile-menu');
+        const menuOverlay = document.querySelector('.menu-overlay');
         
         // Show active page
         function showPage(pageId) {
@@ -683,6 +705,8 @@
             
             // Close mobile menu if open
             mobileMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.classList.remove('no-scroll');
         }
         
         // Add click event to nav links
@@ -706,6 +730,15 @@
         // Toggle mobile menu
         menuToggle.addEventListener('click', function() {
             mobileMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.classList.toggle('no-scroll');
+        });
+        
+        // Close mobile menu when clicking overlay
+        menuOverlay.addEventListener('click', function() {
+            mobileMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.classList.remove('no-scroll');
         });
         
         // FAQ Accordion
